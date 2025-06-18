@@ -1,4 +1,6 @@
 agno==1.6.3
+anthropic==0.54.0
+openai==1.88.0
 pip==24.3.1
 setuptools==75.6.0
 signalbot==0.16.0

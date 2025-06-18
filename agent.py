@@ -1,27 +1,29 @@
 from agno.agent import Agent
 from agno.models.anthropic import Claude
+from agno.models.openai import OpenAIChat
+
 
 def get_agent(description, instructions, expected_output):
     agent = Agent(
-        model=Claude(id="claude-3-5-haiku-20241022"),
+        model=OpenAIChat(id="gpt-4o-mini"),
         description=description,
         instructions=instructions,
         expected_output=expected_output,
-        add_references=False,
-        search_knowledge=True,
         # debug_mode=True,
         # show_tool_calls=False,
         # warnings=False,
-        read_chat_history=False,
+        read_chat_history=True,
+        add_history_to_messages=True,
+        
     )
     return agent
 
 
 def generate_response(message):
     agent = get_agent(
-        description="You are a Moroccan person that engage in fun conversations with the user",
-        instructions="Always respond in Moroccan dialect, no arabic letters, no translation.",
-        expected_output="A concise text message to the message sender",
+        description="You're moroccan adult male.",
+        instructions="Always respond in Moroccan dialect, no arabic letters, no translation. Don't offer assistance, just respond to the message. Review the conversation history to avoid repeating yourself. Provide fresh and unique responses each time while maintaining a consistent personality. Don't ask questions in your reponse.",
+        expected_output="A concise text message to the message sender that doesn't repeat previous responses",
     )
     response = agent.run(f"respond to the following message: {message}")
     return response.content
